@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form method="post" action="{% url 'signup' %}">
+          {% csrf_token %}
+          <input type="text" placeholder="First Name" name="firstname" required>
+          <input type="text" placeholder="Last Name" name = "lastname" required>
+          <input type="text" placeholder="Role/Position" name="role" required>
+          <input type="text" placeholder="Company" name="companyname" required>
+          <input type="text" placeholder="Email" name = "email" required>
+          <input type="text" placeholder="Phone Number" name="phone" required>
+          <input type="password" placeholder="password" name="password" required>
+
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
+    
+
+
+</body>
+</html>
