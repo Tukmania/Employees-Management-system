@@ -1,0 +1,37 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign Up Success</title>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+  {% load static %}
+  <script src="{% static 'js/script.js' %}"></script>
+
+  <style>
+    /* CSS styles for the pop-up */
+   
+    /* CSS animations */
+    @keyframes slide-in {
+      from { top: -100%; opacity: 0; }
+      to { top: 50%; opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="popup">
+    <h2>Sign Up Successful!</h2>
+    <p>Thank you for signing up.</p>
+  </div>
+
+  <script>
+    // JavaScript code to close the pop-up after a delay
+    setTimeout(function() {
+      document.querySelector('.popup').style.display = 'none';
+    }, 3000);
+  </script>
+</body>
+</html>
