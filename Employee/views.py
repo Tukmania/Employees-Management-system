@@ -84,9 +84,9 @@ def add_employee(request):
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
         if form.is_valid():
-            employee = form.save()
+            form.save()  
             temporary_password = generate_random_password()
-            send_email_password(employee.email, temporary_password)
+            # send_email_password(employee.email, temporary_password)
             return redirect('home')
         else:
             messages.error(request, 'The form is Invalid')

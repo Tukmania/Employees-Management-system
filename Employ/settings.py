@@ -145,8 +145,8 @@ MEDIA_URL = 'media/'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True  # Enable TLS encryption if required
-EMAIL_HOST_USER = 'celinediego19@gmail.com'
-EMAIL_HOST_PASSWORD = 'Welcomee19.'
+EMAIL_HOST_USER = 'koechv5@gmail.com'
+EMAIL_HOST_PASSWORD = 'Vinnie*00'
 
 
 
