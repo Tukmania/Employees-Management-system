@@ -1,0 +1,256 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MusicSheet</title>
+
+ 
+    {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'Employee/css/style.css' %}">
+
+{% load static %}
+<script type="text/javascript" src="{% static 'Employee/js/script.js' %}"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vexflow@1.2.93/releases/vexflow-min.js"></script>
+
+
+	<script src="https://kit.fontawesome.com/4fd97b1926.js" crossorigin="anonymous"></script>
+	<!----custom css link---->
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+	<!-- or -->
+	<link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+		rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="script.js"></script>
+
+	
+</head>
+
+
+
+<body>
+
+  
+
+
+	<!---header design--->
+	<header>
+		<a href="" class="logo"><i class='bx bx-desktop'></i>EMS</a>
+
+		<ul class="navbar">
+			<!-- <li><a href="" class="active">Transcription</a></li>
+			<li><a href="">Our Group</a></li>
+			<li><a href="https://github.com" class="active">Project Source Code</a></li> -->
+			
+		</ul>
+
+		<div class="header-icons">
+			
+			<!-- <a href="">Upload</a> -->
+			<a href="{% url 'sigin' %}"><i class='bx bxs-user-circle'></i></a>
+		</div>
+	</header>
+
+  <section class="homee">
+    <div id="sidebar">
+      <a href="#" onclick="showSection(1)">Employees</a>
+      <a href="#" onclick="showSection(2)">Company Inventories</a>
+      <a href="#" onclick="showSection(3)">Leave Days</a>
+    </div>
+  
+    <div id="content">
+
+      <div id="section1" class="content-section scrollable">
+        <a href="{% url 'add_employee' %}"><button class="add-button">Add Employee</button></a>
+       <div class="name-list">
+        {% for employee in employees %}
+        <ol>
+          <li>
+            <div class="name-container">
+              <div class="name">
+                {{ employee.firstname }} {{ employee.lastname }}
+              </div>
+              <div class="actions">
+                <a href="{% url 'update_employee' employee.employee_id %}"><button>Edit</button></a>
+                <button onclick="showSection(6)">View Assets</button>
+                <form method="POST" action="{% url 'remove_employee' employee.employee_id %}" >
+                  {% csrf_token %}
+                <button>Remove</button>
+              </form>
+              </div>
+            </div>
+          </li>
+        </ol>
+        {% endfor %}
+      </div>
+      </div>
+
+
+
+      <div id="section2" class="content-section">
+      
+        <a href="{% url 'add_asset' %}"><button class="add-button">Add Asset</button></a>
+        <div class="name-list">
+          {% for asset in assets%}
+         <ol>
+           <li>
+             <div class="namee-container">
+               <div class="namee">{{ asset.name }}</div>
+               <div class="namee">Serial Number - {{ asset.serial_number }}</div>
+              <div class="asset-given">Assigned to: {{asset.serial_number}} </div>
+              </div>
+           </li>
+         </ol>
+         {% endfor %}
+       </div>
+       </div>
+    
+      <div id="section3" class="content-section">
+        <div class="name-list">
+          <ol class="colll">
+            <li>
+              <div class="nameee-container">
+                <div class="nameee">Vincent koech</div>
+               </div>
+            </li>
+            <li>
+             <div class="nameee-container">
+              <div class="nameee">4 Days</div>
+              </div>
+           </li>
+           <li>
+            <div class="actionss">
+              <button class="actionss">Edit</button>
+            </div>
+           </li>
+           <li>
+            <div class="nameee-container">
+              <div class="nameee">Peter Mwendwa</div>
+             </div>
+          </li>
+          <li>
+           <div class="nameee-container">
+            <div class="nameee">30 Days</div>
+            </div>
+         </li>
+         <li>
+          <div class="actionss">
+            <button class="actionss">Edit</button>
+          </div>
+         </li>
+         <li>
+          <div class="nameee-container">
+            <div class="nameee">Mbasha Mhina</div>
+           </div>
+        </li>
+        <li>
+         <div class="nameee-container">
+          <div class="nameee">10 Days</div>
+          </div>
+       </li>
+       <li>
+        <div class="actionss">
+          <button class="actionss">Edit</button>
+        </div>
+       </li>
+          </ol>
+        </div>
+        </div>
+      </div>
+
+     
+      <!-- {% block content %}
+
+
+      {% endblock %} -->
+
+
+      
+      <div id="section5" class="content-section">
+
+        <div class="container">
+          <h1>Signin</h1>
+          <form method="POST" action="{% url 'add_asset' %}">
+            {% csrf_token %}
+            <input type="text" placeholder="Asset Name" id="name" name="name" required>
+            <input type="text" placeholder="Serial number" id="serial_number" name="serial_number" required>
+            <button type="submit" class="addd-button">Add</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="section6" class="content-section">
+      {% for asset in assets %}
+
+        <a href="{% url 'assign_asset' %}"><button class="add-button">Assign Asset</button></a>
+
+        {% endfor %}
+        <div class="name-list">
+          {% for asset in assetsAssigned%}
+         <ol>
+           <li>
+             <div class="namee-container">
+               <div class="namee">{{ asset.name }}</div>
+               <div class="namee">Serial Number - {{ asset.serial_number }}</div>
+              
+              </div>
+           </li>
+         </ol>
+         {% endfor %}
+       </div>
+       </div>
+     
+
+
+
+
+    </div>
+
+  </section>
+
+
+
+
+
+
+  
+
+    <script src="{% static 'Employee/js/script.js' %}"></script>
+
+	<script>
+
+var navLinks = document.querySelectorAll(".sidebar a");
+    var contentSections = document.querySelectorAll(".content > div");
+     navLinks.forEach(function(link) {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+         var target = this.getAttribute("href").substring(1);
+        showContentSection(target);
+      });
+    });
+     function showContentSection(target) {
+      contentSections.forEach(function(section) {
+        section.style.display = "none";
+      });
+       var selectedSection = document.getElementById(target);
+      selectedSection.style.display = "block";
+    }
+	</script>
+
+<footer class="containeer">
+    <p>&copy; 2023 EMS. All rights reserved.</p>
+  
+</footer>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signin Page</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'Employee/css/style.css' %}">
+
+  <style>
+
+.container {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+p {
+  text-align: center;
+}
+
+  </style>
+</head>
+<body>
+  {% csrf_token %}
+  <div class="container">
+    <h1>Signin</h1>
+
+  
+    <form method="POST" action="{% url 'sigin' %}">
+      {% csrf_token %}
+      <input type="text" placeholder="Username" name="username" required>
+      <input type="password" placeholder="Password" name="password" required>
+      <button type="submit">Signin</button>
+    </form>
+
+    <p>Already have an account?</p><a href="{% url 'home' %}" >Sign in</a>
+  </div>
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

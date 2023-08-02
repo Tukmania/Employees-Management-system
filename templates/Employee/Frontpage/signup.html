@@ -1,0 +1,82 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Employee/css/style.css' %}">
+    
+    {% load static %}
+    <script src="{% static 'js/script.js' %}"></script>
+    
+
+    
+	<script src="https://kit.fontawesome.com/4fd97b1926.js" crossorigin="anonymous"></script>
+	<!----custom css link---->
+	
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+	<!-- or -->
+	<link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+		rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="script.js"></script>
+
+</head>
+
+</head>
+<body>
+
+<!---header design--->
+<header>
+  <a href="index.html" class="logo"><i class=''></i>EMS</a>
+
+  <ul class="navbar">
+    <!-- <li><a href="" class="active"></a></li>
+    <li><a href="">Our Group</a></li>
+    <li><a href="" class="active">Project Source Code</a></li>
+     -->
+  </ul>
+
+  <div class="header-icons">
+    <i class='bx bxs-user-circle'></i>
+    
+  </div>
+  {% csrf_token %}
+</header>
+
+	<!---home design--->
+	<section class="home">
+    
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form method="post" action="{% url 'signup' %}">
+          {% csrf_token %}
+          <input type="text" placeholder="First Name" name="firstname" required>
+          <input type="text" placeholder="Last Name" name = "lastname" required>
+          <input type="text" placeholder="Username" name="username" required>
+          <input type="text" placeholder="Role/Position" name="role" required>
+          <input type="text" placeholder="Company" name="companyname" required>
+          <input type="text" placeholder="Email" name = "email" required>
+          <input type="text" placeholder="Phone Number" name="phone" required>
+          <input type="password" placeholder="password" name="password" required>
+          <button type="submit">Sign Up</button>
+          <p>Already have an account? <a href="{% url 'sigin' %}">Sign in</a></p>
+        </form>
+      </div>
+
+  </section>
+
+  <script src="{% static 'Employee/js/script.js' %}"></script>
+
+</body>
+</html>

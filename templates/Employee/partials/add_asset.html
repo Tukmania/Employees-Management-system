@@ -1,0 +1,57 @@
+
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MusicSheet</title>
+
+ 
+    {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'Employee/css/style.css' %}">
+
+{% load static %}
+<script type="text/javascript" src="{% static 'Employee/js/script.js' %}"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vexflow@1.2.93/releases/vexflow-min.js"></script>
+
+
+	<script src="https://kit.fontawesome.com/4fd97b1926.js" crossorigin="anonymous"></script>
+	<!----custom css link---->
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+	<!-- or -->
+	<link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+		rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="script.js"></script>
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>Signin</h1>
+        <form method="POST" action="{% url 'add_asset' %}">
+          {% csrf_token %}
+
+
+          <input type="text" placeholder="Asset Name" id="name" name="name" required>
+          <input type="text" placeholder="Serial number" id="serial_number" name="serial_number" required>
+
+         <!-- {{ form.as_p }} -->
+
+          <button type="submit" class="addd-button">Add</button>
+        </form>
+      </div>
+
+</body>
+</html>
