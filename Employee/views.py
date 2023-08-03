@@ -14,6 +14,8 @@ from .models import Assets
 from .models import Assign
 from .forms import AssignForm
 from django.urls import reverse
+from django.utils import timezone
+
 
 
 User = get_user_model()
@@ -57,6 +59,8 @@ def signin(request):
 def home(request):
     employees = Employee.objects.all()
     assets = Assets.objects.all()
+    assets_assigned = Assign.objects.all()
+    
     # employee = get_object_or_404(Employee)
     # assetsAssigned = employee.assignment.set.all()
     # if employee_id:
@@ -67,6 +71,7 @@ def home(request):
     context = {
         'employees': employees,
         'assets': assets,
+        'assets_assigned' : assets_assigned,
         # 'employee': employee,
         # 'assetsAssigned': assetsAssigned,
             }    

@@ -1,10 +1,7 @@
 
-
-
-
-
 from django.db import models
 # from .models import Employee, Assets
+from django.utils import timezone
 
 # Create your models here.
 class User(models.Model):
@@ -40,9 +37,13 @@ class Assign(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="assignments" )
     asset = models.ForeignKey(Assets, on_delete=models.CASCADE, related_name="assets" )
     assigned_date = models.DateField()
-    
+
     def __str__(self):
         return f"{self.employee_id} - {self.asset_id}" 
+    
+
+    
+    
     
     
     

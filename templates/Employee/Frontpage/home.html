@@ -6,7 +6,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>MusicSheet</title>
+	<title>EMS</title>
 
  
     {% load static %}
@@ -47,12 +47,10 @@
 	<!---header design--->
 	<header>
 		<a href="" class="logo"><i class='bx bx-desktop'></i>EMS</a>
+   
 
 		<ul class="navbar">
-			<!-- <li><a href="" class="active">Transcription</a></li>
-			<li><a href="">Our Group</a></li>
-			<li><a href="https://github.com" class="active">Project Source Code</a></li> -->
-			
+	
 		</ul>
 
 		<div class="header-icons">
@@ -197,13 +195,13 @@
 
         {% endfor %}
         <div class="name-list">
-          {% for asset in assetsAssigned%}
+          {% for asset in assets_assigned %}
          <ol>
            <li>
              <div class="namee-container">
-               <div class="namee">{{ asset.name }}</div>
-               <div class="namee">Serial Number - {{ asset.serial_number }}</div>
-              
+               <div class="namee">{{ asset.employee }}</div>
+               <div class="namee">{{ asset.asset }}</div>
+               <div class="namee">{{ asset.assigned_date }}</div>
               </div>
            </li>
          </ol>
