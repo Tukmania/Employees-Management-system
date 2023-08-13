@@ -16,7 +16,8 @@ urlpatterns = [
        path('send_email_password' , views.send_email_password, name='send_email_password' ),
        path('add_asset',views.add_asset,name='add_asset'),
        path('assign_asset',views.assign_asset,name='assign_asset'),
-      path('employee_list',views.employee_list, name = 'employee_list')
+      path('employee_list',views.employee_list, name = 'employee_list'),
+      path('employee_assets/<int:employee_id>/', views.employee_assets, name='employee_assets')
       
      
      

@@ -10,10 +10,10 @@ class EmployeeForm(forms.ModelForm):
 class AssetForm(forms.ModelForm):
     class Meta:
         model = Assets
-        fields = ['asset_id','name','serial_number']
+        fields = ['asset_id','asset_name','serial_number']
         
 class AssignForm(forms.Form):
     employee = forms.ModelChoiceField(queryset=Employee.objects.all(),empty_label=None, to_field_name='employee_id')
-    asset = forms.ModelChoiceField(queryset=Assets.objects.all(),empty_label=None, to_field_name='asset_id')
+    asset_name = forms.ModelChoiceField(queryset=Assets.objects.values_list('asset_name' ,flat=True),empty_label=None, to_field_name='asset_name')
     assigned_date = forms.DateField()
     

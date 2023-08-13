@@ -76,8 +76,9 @@
         <ol>
           <li>
             <div class="name-container">
-              <div class="name">
+              <div class="name"><a href="{% url 'employee_assets' employee.employee_id %}">
                 {{ employee.firstname }} {{ employee.lastname }}
+              </a>
               </div>
               <div class="actions">
                 <a href="{% url 'update_employee' employee.employee_id %}"><button>Edit</button></a>
@@ -104,7 +105,7 @@
          <ol>
            <li>
              <div class="namee-container">
-               <div class="namee">{{ asset.name }}</div>
+               <div class="namee">{{ asset.asset_name }}</div>
                <div class="namee">Serial Number - {{ asset.serial_number }}</div>
               <div class="asset-given">Assigned to: {{asset.serial_number}} </div>
               </div>
@@ -195,12 +196,12 @@
 
         {% endfor %}
         <div class="name-list">
-          {% for asset in assets_assigned %}
+          {% for asset in assigned_asset %}
          <ol>
            <li>
              <div class="namee-container">
                <div class="namee">{{ asset.employee }}</div>
-               <div class="namee">{{ asset.asset }}</div>
+               <div class="namee">{{ asset.asset_name.asset_name }}</div>
                <div class="namee">{{ asset.assigned_date }}</div>
               </div>
            </li>

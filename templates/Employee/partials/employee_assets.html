@@ -22,7 +22,7 @@
 
 	<script src="https://kit.fontawesome.com/4fd97b1926.js" crossorigin="anonymous"></script>
 	<!----custom css link---->
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/styyle.css">
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 	<!-- or -->
@@ -35,23 +35,24 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="script.js"></script>
 
+	
 </head>
+
 <body>
 
-    <div class="container">
-        <h1>Signin</h1>
-        <form method="POST" action="{% url 'add_asset' %}">
-          {% csrf_token %}
+    <ul>
+     {{ assigned.firstname}} assets
+   {% for assigned in assigned %}
 
+   <li>{{assigned.asset_name.asset_name}} - {{assigned.assigned_date}}</li>
+     
+   {% endfor %}
 
-          <input type="text" placeholder="Asset Name" id="asset_name" name="asset_name" required>
-          <input type="text" placeholder="Serial number" id="serial_number" name="serial_number" required>
+    </ul>
 
-         <!-- {{ form.as_p }} -->
-
-          <button type="submit" class="addd-button">Add</button>
-        </form>
-      </div>
 
 </body>
 </html>
+
+
+

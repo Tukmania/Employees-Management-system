@@ -56,26 +56,33 @@ def signin(request):
     return render(request, 'Employee/Frontpage/sigin.html')
 
 
-def home(request):
+def home(request, employee_id):
     employees = Employee.objects.all()
     assets = Assets.objects.all()
-    assets_assigned = Assign.objects.all()
+    for employeees in Employee.objects.get(employee_id = employee_id):
+        assigned_asset = employeees.assignments.all()
+        for asset in assigned_asset:
+            print("Asset Name:", asset.asset_name.asset_name," Assigned to", employeees.username )
     
-    # employee = get_object_or_404(Employee)
-    # assetsAssigned = employee.assignment.set.all()
-    # if employee_id:
-    #     employee = get_object_or_404(Employee, employee_id=employee_id)
-        
-    # else:
-    #     employee = None     
     context = {
         'employees': employees,
         'assets': assets,
-        'assets_assigned' : assets_assigned,
+        'assigned_asset' : assigned_asset,
         # 'employee': employee,
-        # 'assetsAssigned': assetsAssigned,
+        
             }    
     return render(request, 'Employee/Frontpage/home.html',context)
+
+def employee_assets(request, employee_id):
+    # This function will display the list of all assets that are assigned
+    individual_employee = Employee.objects.get(employee_id = employee_id)
+    assetes  = individual_employee.assignments.all()
+    
+    context = {
+        'assigned' : assetes
+    }
+    
+    return render(request,'Employee/partials/employee_assets.html',context)
 
 
 def generate_random_password(length=6):
@@ -161,10 +168,10 @@ def assign_asset(request):
         form  = AssignForm(request.POST)
         if form.is_valid():
             employee_id = form.cleaned_data['employee']
-            asset_id = form.cleaned_data['asset']
+            asset_name = form.cleaned_data['asset_name']
             assigned_date = form.cleaned_data['assigned_date']
             
-            assignement = Assign(employee = employee_id, asset = asset_id, assigned_date = assigned_date )
+            assignement = Assign(employee = employee_id, asset_id = asset_name, assigned_date = assigned_date )
             assignement.save()
             return redirect('home')
     else:

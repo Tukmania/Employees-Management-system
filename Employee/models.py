@@ -29,17 +29,17 @@ class Employee(models.Model):
     
 class Assets(models.Model):
     asset_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
+    asset_name = models.CharField(max_length=100, unique=True,default='asset')
     serial_number = models.CharField(max_length=100,unique=True)
 
 class Assign(models.Model):
     
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="assignments" )
-    asset = models.ForeignKey(Assets, on_delete=models.CASCADE, related_name="assets" )
+    asset_name = models.ForeignKey(Assets, on_delete=models.CASCADE, related_name="asset" )
     assigned_date = models.DateField()
 
     def __str__(self):
-        return f"{self.employee_id} - {self.asset_id}" 
+        return f"{self.employee_id} - {self.asset_name}" 
     
 
     
