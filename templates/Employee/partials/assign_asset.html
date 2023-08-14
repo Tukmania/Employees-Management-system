@@ -9,7 +9,7 @@
 	<title>MusicSheet</title>
 
     {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'Employee/css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'Employee/css/styyle.css' %}">
 
 {% load static %}
 <script type="text/javascript" src="{% static 'Employee/js/script.js' %}"></script>
@@ -33,14 +33,102 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="script.js"></script>
 
+	<style>
+
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+	text-decoration: none;
+	list-style: none;
+}
+:root{
+	--bg-color: #101113;
+	--text-color: #fff;
+	--main-color: #34e7f8;
+	--other-color: #fcfcfc;
+	--h1-font: 6rem;
+	--p-font: 1rem;
+}
+body{
+	background: radial-gradient(50.53% 50.53% at 50.23% 49.47%, #414d59 0%, #1d2631 100%);
+	color: var(--text-color);
+}
+
+header {
+	display: flex;
+	width: 100%;
+	z-index: 1000;
+	padding: 20px;
+}
+.navbar {
+	align-items: center;
+	justify-content: space-between;
+	display: flex;
+	
+}
+.logo{
+	font-size: x-large;
+	color: var(--main-color);
+}
+
+.header-icons {
+	display: flex;
+	justify-content: space-between;
+	font-size: large;
+	position: relative;
+	left: 1100px;
+	color: var(--main-color);
+}
+a {
+	color: var(--main-color);
+}	
+
+.assign_form {
+	padding: 80;
+}
+
+form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+
+form button {
+	position: absolute;
+	top:200px;
+	width: 150px;
+	height: 50px;
+}
+
+	</style>
+
 </head>
 <body>
+
+	<header>
+		<a href="" class="logo"><i class='bx bx-desktop'></i>EMS</a>
+		<ul class="navbar">
+		</ul>
+		<div class="header-icons">
+			
+			<!-- <a href="">Upload</a> -->
+			
+			<a href="{% url 'sigin' %}"><i class='bx bxs-user-circle'></i></a>
+			
+		</div>
+	</header>
+
+	<section class="assign_form">
 
     <form method="post" action="{% url 'assign_asset'%}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Assign</button>
       </form>
+	</section>
 </body>
 </html>
 

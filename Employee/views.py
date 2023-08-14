@@ -56,10 +56,10 @@ def signin(request):
     return render(request, 'Employee/Frontpage/sigin.html')
 
 
-def home(request, employee_id):
+def home(request):
     employees = Employee.objects.all()
     assets = Assets.objects.all()
-    for employeees in Employee.objects.get(employee_id = employee_id):
+    for employeees in Employee.objects.all():
         assigned_asset = employeees.assignments.all()
         for asset in assigned_asset:
             print("Asset Name:", asset.asset_name.asset_name," Assigned to", employeees.username )
@@ -79,7 +79,8 @@ def employee_assets(request, employee_id):
     assetes  = individual_employee.assignments.all()
     
     context = {
-        'assigned' : assetes
+        'assigned' : assetes,
+        'employ' : individual_employee
     }
     
     return render(request,'Employee/partials/employee_assets.html',context)
@@ -171,9 +172,9 @@ def assign_asset(request):
             asset_name = form.cleaned_data['asset_name']
             assigned_date = form.cleaned_data['assigned_date']
             
-            assignement = Assign(employee = employee_id, asset_id = asset_name, assigned_date = assigned_date )
+            assignement = Assign(employee = employee_id, asset_name = asset_name, assigned_date = assigned_date )
             assignement.save()
-            return redirect('home')
+        return redirect('home')
     else:
         form = AssignForm()
         

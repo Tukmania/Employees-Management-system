@@ -32,6 +32,7 @@ header{
 	transition: all .55s ease;
 	background: transparent;
 	transition: transform 0.5s ease;
+	
 }
 header.hidden {
     transform: translateY(-50px);
@@ -104,6 +105,8 @@ section{
 	 grid-template-columns: auto auto;
 
 }
+
+
 
 
 
