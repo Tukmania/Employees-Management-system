@@ -86,11 +86,20 @@ a {
 
 padding:  80px ;
 text-align: center;
-margin-top: 80px;
+
 }
 
-.home_assets h1 {
-margin-top: 80px;
+
+
+h1 {
+	margin-bottom: 100px;
+	margin-top: 20px;
+}
+
+ol {
+	margin-bottom: 100px;
+	margin-top: 20px;
+	list-style-type: circle;
 }
 
 	</style>
@@ -116,19 +125,19 @@ margin-top: 80px;
 	<section class="home_assets">
 
        
-    <h1>This are  {{ employ.firstname }} 's assets </h1>
+    <h1>{{ employ.firstname }} 's assets </h1>
     
    {% for assigned in assigned %}
 
-   <ul>
+   <ol>
 
    <li>{{assigned.asset_name.asset_name}} - {{assigned.assigned_date}}</li>
      
    {% endfor %}
 
-    </ul>
+    </ol>
 
-	<a href="{% url 'assign_asset' %}"><button class="add-button">Assign Asset</button></a>
+	<a href="{% url 'assign_asset' %}"><button class="add-button">Assign more Assets</button></a>
 
 	</section>
 

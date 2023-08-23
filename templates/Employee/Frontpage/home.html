@@ -76,13 +76,12 @@
         <ol>
           <li>
             <div class="name-container">
-              <div class="name"><a href="{% url 'employee_assets' employee.employee_id %}">
+              <div class="name">
                 {{ employee.firstname }} {{ employee.lastname }}
-              </a>
               </div>
               <div class="actions">
                 <a href="{% url 'update_employee' employee.employee_id %}"><button>Edit</button></a>
-                <button onclick="showSection(6)">View Assets</button>
+                <a href="{% url 'employee_assets' employee.employee_id %}"><button>View Assets</button></a>
                 <form method="POST" action="{% url 'remove_employee' employee.employee_id %}" >
                   {% csrf_token %}
                 <button>Remove</button>
@@ -95,10 +94,7 @@
       </div>
       </div>
 
-
-
       <div id="section2" class="content-section">
-      
         <a href="{% url 'add_asset' %}"><button class="add-button">Add Asset</button></a>
         <div class="name-list">
           {% for asset in assets%}
@@ -107,7 +103,11 @@
              <div class="namee-container">
                <div class="namee">{{ asset.asset_name }}</div>
                <div class="namee">Serial Number - {{ asset.serial_number }}</div>
-              <div class="asset-given">Assigned to: {{asset.serial_number}} </div>
+               <div class="namee"><form method="post" action="{% url 'remove_asset' asset.asset_id %}">
+                {% csrf_token %}
+                <button>Remove</button>
+              </form>
+            </div>
               </div>
            </li>
          </ol>
@@ -116,11 +116,12 @@
        </div>
     
       <div id="section3" class="content-section">
+        {% for employee in employees %}
         <div class="name-list">
           <ol class="colll">
             <li>
               <div class="nameee-container">
-                <div class="nameee">Vincent koech</div>
+                <div class="nameee">{{ employee.username }}</div>
                </div>
             </li>
             <li>
@@ -128,43 +129,9 @@
               <div class="nameee">4 Days</div>
               </div>
            </li>
-           <li>
-            <div class="actionss">
-              <button class="actionss">Edit</button>
-            </div>
-           </li>
-           <li>
-            <div class="nameee-container">
-              <div class="nameee">Peter Mwendwa</div>
-             </div>
-          </li>
-          <li>
-           <div class="nameee-container">
-            <div class="nameee">30 Days</div>
-            </div>
-         </li>
-         <li>
-          <div class="actionss">
-            <button class="actionss">Edit</button>
-          </div>
-         </li>
-         <li>
-          <div class="nameee-container">
-            <div class="nameee">Mbasha Mhina</div>
-           </div>
-        </li>
-        <li>
-         <div class="nameee-container">
-          <div class="nameee">10 Days</div>
-          </div>
-       </li>
-       <li>
-        <div class="actionss">
-          <button class="actionss">Edit</button>
-        </div>
-       </li>
           </ol>
         </div>
+        {% endfor %}
         </div>
       </div>
 

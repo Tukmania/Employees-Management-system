@@ -1,4 +1,6 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from Employee.decorators import allowed_users, unauthenticated_user
 from Employee.models import User
 from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.auth.models import AbstractUser
@@ -13,16 +15,19 @@ from .forms import AssetForm
 from .models import Assets
 from .models import Assign
 from .forms import AssignForm
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
+from django.contrib.auth.models import Group
 
 
 
 User = get_user_model()
+User.add_to_class('is_employer', models.BooleanField(default=False))
+User.add_to_class('is_employee', models.BooleanField(default=False))
 
 # Create your views here.
 
-
+# @unauthenticated_user
 def signup(request):
 
     if request.method == 'POST':
@@ -36,27 +41,54 @@ def signup(request):
             user = User.objects.create_user(
                 username=username, password=password, email=email, first_name=firstname, last_name=lastname)
             user.role = role
+            group = Group.objects.get(name='Employers')
+            user.groups.add(group)
             user.save()
             login(request, user)
             return render(request, 'Employee/Frontpage/sigin.html')
     return render(request, 'Employee/Frontpage/signup.html')
 
 
+from django.contrib.auth import login, authenticate 
+from django.shortcuts import redirect
+
+# @unauthenticated_user
 def signin(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            return (render, 'signup')
+
+  if request.method == 'POST':
+
+    username = request.POST['username']
+    password = request.POST['password']
+        
+    user = authenticate(request, username=username, password=password)
+
+    if user is not None:
+        
+      login(request, user)
+      return redirect('home')
+  return render(request, 'Employee/Frontpage/sigin.html')
+            
+
+def employee_signin(request,temporary_password):
+  if request.method == 'POST':
+      username = request.POST['username']
+      password = request.POST['password']
+      
+      password = Employee.objects.get(temporary_password=temporary_password)
+      
+      user = authenticate(request, username=username, password=password)
+      
+      if user is not None:
+          print("User authenticated")
+          #login(request, user)
+          return redirect('home')
+  return render(request, 'Employee/Frontpage/employee_signin.html')
     
-    return render(request, 'Employee/Frontpage/sigin.html')
 
-
+    
+@allowed_users(allowed_roles=['Employers','Employees'])
 def home(request):
+    
     employees = Employee.objects.all()
     assets = Assets.objects.all()
     for employeees in Employee.objects.all():
@@ -72,7 +104,7 @@ def home(request):
         
             }    
     return render(request, 'Employee/Frontpage/home.html',context)
-
+@allowed_users(allowed_roles=['Employers','Employees'])
 def employee_assets(request, employee_id):
     # This function will display the list of all assets that are assigned
     individual_employee = Employee.objects.get(employee_id = employee_id)
@@ -92,19 +124,26 @@ def generate_random_password(length=6):
                                  for _ in range(length))
     return temporary_password
 
-
+@allowed_users(allowed_roles=['Employers'])
 def add_employee(request):
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
         if form.is_valid():
-            form.save()  
-            temporary_password = generate_random_password()
-            # send_email_password(employee.email, temporary_password)
+            form.save()
+            # group = Group.objects.get(name='Employees')
+            # user.groups.add(group)
             return redirect('home')
         else:
-            messages.error(request, 'The form is Invalid')
+            return HttpResponse('The form is Invalid')
             return redirect('add_employee')
-        form = EmployeeForm()
+            
+         
+            
+        #   return redirect('home') 
+            # temporary_password = generate_random_password()
+            # print('random_password',temporary_password)
+            # send_email_password(employee.email, temporary_password)
+        
     return render(request, 'Employee/partials/add_employee.html')
 
 
@@ -112,7 +151,7 @@ def employee_list(request):
     employees = Employee.objects.all()
     return render(request, 'Employee/partials/employee_list.html', {'employees': employees})
 
-
+@allowed_users(allowed_roles=['Employers','Employees'])
 def update_employee(request, employee_id):
     employee = Employee.objects.get(employee_id=employee_id)
     if request.method == 'POST':
@@ -129,9 +168,9 @@ def update_employee(request, employee_id):
     }
     return render(request, 'Employee/partials/update_employee.html', context)
 
-
+@allowed_users(allowed_roles=['Employers'])
 def remove_employee(request, employee_id):
-    employee = get_object_or_404(Employee, id=employee_id)
+    employee = get_object_or_404(Employee, employee_id=employee_id)
     if request.method == 'POST':
         employee.delete()
         return redirect('home')
@@ -148,7 +187,7 @@ def send_email_password(employee_email, temporary_password):
     email = EmailMessage(subject, from_email, message, to_email)
     email.send()
 
-
+@allowed_users(allowed_roles=['Employers'])
 def add_asset(request):
     if request.method == 'POST':
         form = AssetForm(request.POST)
@@ -162,8 +201,17 @@ def add_asset(request):
     }
 
     return render(request, 'Employee/partials/add_asset.html',context)
+@allowed_users(allowed_roles=['Employers'])
+def remove_asset(request, asset_id):
+    
+    asset = get_object_or_404(Assets,asset_id=asset_id)
+    if request.method == 'POST':
+        asset.delete()
+        return redirect('home')
+    else:
+        pass
 
-
+@allowed_users(allowed_roles=['Employers']) 
 def assign_asset(request):
     if request.method == 'POST':
         form  = AssignForm(request.POST)
@@ -179,5 +227,15 @@ def assign_asset(request):
         form = AssignForm()
         
     return render(request, 'Employee/partials/assign_asset.html', {'form': form} )
+
+def employee_dashboard(request):
+    
+    if request.user.is_authenticated and request.user.is_employees:
+        
+     return render(request, 'Employee/Frontpage/employee_home.html')
+
+
+
+
 
 

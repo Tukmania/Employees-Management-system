@@ -39,17 +39,17 @@ p {
 <body>
   {% csrf_token %}
   <div class="container">
-    <h1>Employer Signin</h1>
+    <h1>Employee Signin</h1>
 
   
-    <form method="POST" action="{% url 'sigin' %}">
+    <form method="POST" action="{% url 'employee_signin' %}">
       {% csrf_token %}
       <input type="text" placeholder="Username" name="username" required>
       <input type="password" placeholder="Password" name="password" required>
       <button type="submit">Signin</button>
     </form>
 
-    <a href="{% url 'employee_signin' %}" >Signin as an Employee</a>
+    <a href="{% url 'home' %}" >Signin as an Employer</a>
   </div>
 
   <script src="{% static 'js/script.js' %}"></script>
