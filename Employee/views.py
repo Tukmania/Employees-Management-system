@@ -103,10 +103,6 @@ def employee_signin(request):
             
     return render(request, 'Employee/Frontpage/employee_signin.html')
 
-
-    
-
-    
 @allowed_users(allowed_roles=['Employers','Employees'])
 def home(request):
     
@@ -116,11 +112,18 @@ def home(request):
         assigned_asset = employeees.assignments.all()
         for asset in assigned_asset:
             print("Asset Name:", asset.asset_name.asset_name," Assigned to", employeees.username )
+            
+    if request.user.is_authenticated:
+        username = request.user.username
+        
+    
+       
     
     context = {
         'employees': employees,
         'assets': assets,
         'assigned_asset' : assigned_asset,
+        'username' : username,
         # 'employee': employee,
         
             }    
@@ -143,6 +146,7 @@ def generate_random_password(length=6):
     characters = string.ascii_letters + string.digits + string.punctuation
     temporary_password = ''.join(random.choice(characters)
                                  for _ in range(length))
+    print('temporary_password')
     return temporary_password
 
 @allowed_users(allowed_roles=['Employers'])
@@ -156,7 +160,6 @@ def add_employee(request):
             group = Group.objects.get(name='Employees')
             user.groups.add(group)
             user.save()
-            print('User Created')
             form.save()
             return redirect('home')
         else:
