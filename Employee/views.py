@@ -18,6 +18,7 @@ from .forms import AssignForm
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.contrib.auth.models import Group
+from django.contrib.auth.hashers import check_password
 
 
 
@@ -69,20 +70,40 @@ def signin(request):
   return render(request, 'Employee/Frontpage/sigin.html')
             
 
-def employee_signin(request,temporary_password):
-  if request.method == 'POST':
-      username = request.POST['username']
-      password = request.POST['password']
-      
-      password = Employee.objects.get(temporary_password=temporary_password)
-      
-      user = authenticate(request, username=username, password=password)
-      
-      if user is not None:
-          print("User authenticated")
-          #login(request, user)
-          return redirect('home')
-  return render(request, 'Employee/Frontpage/employee_signin.html')
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import check_password
+from django.shortcuts import render, redirect
+from .models import Employee
+
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import check_password
+from django.shortcuts import render, redirect
+from .models import Employee
+
+def employee_signin(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        temporary_password = request.POST['temporary_password']
+        
+        try:
+            employee = Employee.objects.get(username=username)
+        except Employee.DoesNotExist:
+            employee = None
+            
+        if employee is not None:
+            user = authenticate(request, username=username, password=temporary_password)
+            if user is not None:
+                login(request, user)
+                print("User authenticated")
+                return redirect('home')
+            else:
+                print("Authentication failed")
+        else:
+            print("Password mismatch or employee not found")
+            
+    return render(request, 'Employee/Frontpage/employee_signin.html')
+
+
     
 
     
@@ -129,16 +150,19 @@ def add_employee(request):
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
         if form.is_valid():
+            username = form.cleaned_data['username']
+            temporary_password = form.cleaned_data['temporary_password']
+            user = User.objects.create_user(username=username, password=temporary_password)
+            group = Group.objects.get(name='Employees')
+            user.groups.add(group)
+            user.save()
+            print('User Created')
             form.save()
-            # group = Group.objects.get(name='Employees')
-            # user.groups.add(group)
             return redirect('home')
         else:
             return HttpResponse('The form is Invalid')
             return redirect('add_employee')
-            
-         
-            
+    
         #   return redirect('home') 
             # temporary_password = generate_random_password()
             # print('random_password',temporary_password)
