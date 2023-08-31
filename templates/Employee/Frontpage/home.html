@@ -65,7 +65,9 @@
     <div id="sidebar">
       <a href="#" onclick="showSection(1)">Employees</a>
       <a href="#" onclick="showSection(2)">Company Inventories</a>
-      <a href="#" onclick="showSection(3)">Leave Days</a>
+      {%  for employee in employees%}
+      <a href="{% url 'leavedays' employee.employee_id %}" >Leave Days</a>
+      {% endfor %}
     </div>
   
     <div id="content">

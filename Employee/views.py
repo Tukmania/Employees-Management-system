@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from Employee.decorators import allowed_users, unauthenticated_user
@@ -6,7 +7,7 @@ from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from .forms import EmployeeForm
-from .models import Employee
+from .models import Employee, LeaveRequest
 from django.contrib import messages
 from django.core.mail import EmailMessage
 import random
@@ -28,7 +29,7 @@ User.add_to_class('is_employee', models.BooleanField(default=False))
 
 # Create your views here.
 
-# @unauthenticated_user
+@unauthenticated_user
 def signup(request):
 
     if request.method == 'POST':
@@ -53,7 +54,7 @@ def signup(request):
 from django.contrib.auth import login, authenticate 
 from django.shortcuts import redirect
 
-# @unauthenticated_user
+@unauthenticated_user
 def signin(request):
 
   if request.method == 'POST':
@@ -115,10 +116,6 @@ def home(request):
             
     if request.user.is_authenticated:
         username = request.user.username
-        
-    
-       
-    
     context = {
         'employees': employees,
         'assets': assets,
@@ -262,6 +259,25 @@ def employee_dashboard(request):
      return render(request, 'Employee/Frontpage/employee_home.html')
 
 
+def request_leave(request, employee_id):
+    
+    employee = Employee.objects.get(employee_id=employee_id)
+    
+    if request.method == 'POST':
+        
+        start_date = datetime.strptime(request.POST['start_date'], '%Y-%m-%d').date()
+        end_date = datetime.strptime(request.POST['end_date'], '%Y-%m-%d').date()
+    
+        leave_days_requested = (end_date - start_date).days
+        if employee.leave_days >= leave_days_requested:
+         leave_request = LeaveRequest(employee = employee, start_date=start_date,end_date=end_date)
+         leave_request.save()
+         print('Leave Request captured')
+         return redirect('home')
+        else:
+         messages.error(request, "Not enough leave days remainig")
+         return redirect('home')
+    return render(request, 'Employee/Frontpage/leavedays.html')
 
 
 

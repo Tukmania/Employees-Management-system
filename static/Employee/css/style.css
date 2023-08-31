@@ -105,6 +105,11 @@ section{
 	 grid-template-columns: auto auto;
 
 }
+.form-container {
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
 
 
 

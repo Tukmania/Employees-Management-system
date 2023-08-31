@@ -23,7 +23,7 @@ class Employee(models.Model):
     phonenumber = models.IntegerField()
     role = models.CharField(max_length=100)
     temporary_password = models.CharField(max_length=100)
-    # leave_days = models.IntegerField(default=30)
+    leave_days = models.IntegerField(default=30)
     
     def __str__(self):
         return self.username
@@ -42,14 +42,14 @@ class Assign(models.Model):
     def __str__(self):
         return f"{self.employee_id} - {self.asset_name}" 
     
-# class LeaveRequest(models.Model):
-#     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='leave')
-#     start_date = models.DateField()
-#     end_date = models.DateField()
-#     status = models.CharField(max_length=200, default="Pending")
+class LeaveRequest(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='leave')
+    start_date = models.DateField()
+    end_date = models.DateField()
+    status = models.CharField(max_length=200, default="Pending")
     
-#     def calculate_days(self):
-#         return(self.end_date-self.start_date).days
+    def calculate_days(self, start_date, end_date):
+        return(end_date - start_date).days
 
     
 

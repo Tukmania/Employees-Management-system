@@ -93,6 +93,12 @@ header.hidden {
 	color: var(--main-color);
 }
 
+.form-container {
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+
 
 section{
 	padding: 0 15%;

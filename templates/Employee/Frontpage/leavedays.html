@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signin Page</title>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'Employee/css/style.css' %}">
+  
+  {% load static %}
+  
+<style>
+
+h1 {
+    color: gainsboro;
+    display: flex;
+    justify-content: center;
+    margin-top: 200px;
+
+}
+
+    .form-container {
+	justify-content: center;
+	align-items: center;
+	display: flex;
+    margin-top: 100px;
+    
+}
+
+button {
+
+    margin-top: 50px;
+
+}
+</style>
+
+</head>
+<body>
+   
+<h1>Leave days</h1>
+
+  <div class="form-container">
+
+    <form method="POST">
+  
+      {% csrf_token %} 
+      
+      <label>Start Date:</label>
+      <input type="date" name="start_date">
+    
+      <label>End Date:</label> 
+      <input type="date" name="end_date">
+    
+      <label>Leave Type:</label>
+      <select name="leave_type">
+        <option value="paid">Paid Leave</option>
+        <option value="sick">Sick Leave</option>
+        <option value="casual">Casual Leave</option>
+      </select>
+   
+    
+      <button type="submit">Submit Request</button>
+    
+    </form>
+  
+
+</div>
+
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

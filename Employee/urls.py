@@ -21,7 +21,8 @@ urlpatterns = [
       path('employee_assets/<int:employee_id>/', views.employee_assets, name='employee_assets'),
       path('remove_asset/<int:asset_id>/', views.remove_asset, name='remove_asset'),
       path('employee_home', views.employee_dashboard, name='employee_home'),
-      path('employee_signin',views.employee_signin,name='employee_signin')
+      path('employee_signin',views.employee_signin,name='employee_signin'),
+      path('leavedays/<int:employee_id>/', views.request_leave, name='leavedays'),
       
       
      
